@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+html, body {
+	height: 100vh;
+	width: 100vw;
+	padding: 0px;
+	margin: 0px;
+	overflow: hidden;
+}
+
+#bg {
+	background: url("/video");
+	background-size: contain;
+	height: 100vh;
+	background-position: center;
+	background-repeat: no-repeat;
+	width: 100vw;
+}
+
+</style>
+
+<script type="text/javascript">
+	const KEYS = new Map([
+                [37, 'LEFT'], 
+                [38, 'UP'],
+                [39, 'RIGHT'],
+                [40, 'DOWN'],
+            ]);
+            function eqSet(as, bs) {
+                if (as.size !== bs.size) return false;
+                for (var a of as) if (!bs.has(a)) return false;
+                return true;
+            }
+            const url = `ws://${window.location.host}/socket`;
+            let ws = new WebSocket(url);
+            ws.onopen = function() {
+
+                let keydown = new Set();
+                window.addEventListener("keydown", function (e) {
+                    if (KEYS.has(e.keyCode)) {
+                        keydown.add(KEYS.get(e.keyCode));
+                        send();
+                    }
+                });
+                window.addEventListener("keyup", function (e) {
+                    if (KEYS.has(e.keyCode)) {
+                        keydown.delete(KEYS.get(e.keyCode));
+                        send();
+                    }
+                });
+
+                let lastSentKeys = new Set();
+                function send() {
+                    let currentKeys = keydown;
+                    if (eqSet(lastSentKeys, currentKeys)) {
+                        ws.send(JSON.stringify(Array.from(currentKeys)));
+                        lastSentKeys = currentKeys;
+                    }
+                }
+            }
+</script>
+<title>Videostream</title>
+</head>
+<body>
+<div id="bg"/>
+</body>
+
+</html>
