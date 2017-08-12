@@ -41,7 +41,7 @@ class KeyHandler(Handler, Sensor):
             self.is_connected = False
 
     def __enter__(self):
-    	self.running = True
+        self.running = True
 
     def __exit__(self, exit_type, value, traceback):
         self.running = False

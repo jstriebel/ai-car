@@ -14,4 +14,3 @@ class Handler(ABC):
     @abstractmethod
     def __exit__(self, exit_type, value, traceback):
         pass
-

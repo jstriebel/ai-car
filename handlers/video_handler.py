@@ -2,8 +2,9 @@ from handlers.handler import Handler
 from aiohttp import web, WSMsgType
 import asyncio 
 import cv2
+from writers.writer import Writer
 
-class VideoHandler(Handler):
+class VideoHandler(Handler, Writer):
     def __init__(self):
         self.frame = None
 
@@ -25,7 +26,7 @@ class VideoHandler(Handler):
                 img_len = str.encode(str(len(img)))
                 resp.write(b"--frame\r\n")
                 resp.write(b"Content-Type: image/jpeg\r\n")
-                resp.write(b"Content-length: "+img_len+b"\r\n\r\n")
+                resp.write(b"Content-length: " + img_len + b"\r\n\r\n")
                 resp.write(img)
                 
                 # Yield to the scheduler so other processes do stuff.
@@ -40,7 +41,7 @@ class VideoHandler(Handler):
         return resp
 
     def __enter__(self):
-    	self.running = True
+        self.running = True
 
     def __exit__(self, exit_type, value, traceback):
         self.running = False
