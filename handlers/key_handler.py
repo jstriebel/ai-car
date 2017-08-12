@@ -1,7 +1,8 @@
-from handlers.handler import Handler
 from aiohttp import web, WSMsgType, Timeout
 import asyncio 
 import json
+
+from handlers.handler import Handler
 from sensors.sensor import Sensor
 
 class KeyHandler(Handler, Sensor):

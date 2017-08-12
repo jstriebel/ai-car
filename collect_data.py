@@ -1,16 +1,17 @@
 import time
 
-from sensors import *
-from writers import *
 from handlers import *
 from server import Server
+from sensors import *
+from writers import *
 
 def main():
     vid_handler = VideoHandler()
     key_handler = KeyHandler()
+    file_handler = FileHandler("index.html")
     with Webcam() as cam, \
         Server(handlers={
-            "/": FileHandler("index.html"),
+            "/": file_handler,
             "/video": vid_handler,
             "/socket": key_handler 
         }, port=8080) as server, \

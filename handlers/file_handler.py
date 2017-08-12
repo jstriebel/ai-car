@@ -1,6 +1,7 @@
-from handlers.handler import Handler
 from aiohttp import web, WSMsgType
 import asyncio
+
+from handlers.handler import Handler
 
 class FileHandler(Handler):
     def __init__(self, file):
