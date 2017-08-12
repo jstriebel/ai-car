@@ -14,6 +14,24 @@ html, body {
 	overflow: hidden;
 }
 
+#controller {
+	position: absolute;
+	height: 5vh;
+	width: 80vw;
+	bottom: 0px;
+	left: 10vw;
+	border: 2px solid black;
+	background: rgba(255,255,255,.5);
+	display:table;
+}
+
+#controllerpane {
+	display:table-cell; 
+	text-align:center; 
+	vertical-align:middle;
+	font-family: sans-serif;
+}
+
 #bg {
 	background: url("/video");
 	background-size: contain;
@@ -47,6 +65,7 @@ html, body {
                         keydown.add(KEYS.get(e.keyCode));
                         send();
                     }
+
                 });
                 window.addEventListener("keyup", function (e) {
                     if (KEYS.has(e.keyCode)) {
@@ -60,6 +79,7 @@ html, body {
                     let currentKeys = keydown;
                     if (eqSet(lastSentKeys, currentKeys)) {
                         ws.send(JSON.stringify(Array.from(currentKeys)));
+                        document.getElementById("controllerpane").innerHTML = Array.from(currentKeys);
                         lastSentKeys = currentKeys;
                     }
                 }
@@ -69,6 +89,11 @@ html, body {
 </head>
 <body>
 <div id="bg"/>
+<div id="controller">
+<div id="controllerpane">
+
+</div>
+</div>
 </body>
 
 </html>
